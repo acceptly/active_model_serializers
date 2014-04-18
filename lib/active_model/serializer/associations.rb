@@ -91,8 +91,8 @@ module ActiveModel
 
         def get_default_options
           defaults = option(:default_options)
-          defaults = {} unless default.is_a? Hash
-          source_serializer.options.dup.merge defaults
+          defaults = {} unless defaults.is_a? Hash
+          defaults.merge source_serializer.options
         end
 
         def find_serializable(object)
