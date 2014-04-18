@@ -89,11 +89,17 @@ module ActiveModel
 
       protected
 
+        def get_default_options
+          defaults = option(:default_options)
+          defaults = {} unless default.is_a? Hash
+          source_serializer.options.dup.merge defaults
+        end
+
         def find_serializable(object)
           if target_serializer
-            target_serializer.new(object, source_serializer.options)
+            target_serializer.new(object, get_default_options)
           elsif object.respond_to?(:active_model_serializer) && (ams = object.active_model_serializer)
-            ams.new(object, source_serializer.options)
+            ams.new(object, get_default_options)
           else
             object
           end
